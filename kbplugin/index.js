@@ -43,6 +43,8 @@
                         "showLegend": false,
                         "xIsDateTime": true,
                         "stackValues": false,
+                        "yAxisTickInterval": 0.1,
+                        "yAxisLogarithmic": true,
                         "lineWidth": 0,
                         "type": "serieschart",
                         "title": "Number of messages vs time",
@@ -58,7 +60,7 @@
                             ],
                             "type": "logs"
                         },
-                        "preProcessor": "(cur, idx, state)=>({name: +cur.name, count: +cur.count})",
+                        "preProcessor": `(cur, idx, state)=>({name: +cur.name, count: +cur.count, lbl: \`\${new Date(+cur.name).toISOString()} - \${new Date(+cur.name + ${gap}).toISOString()}\`})`,
                         "eventHandlers": [
                             {
                                 "on": "range-select",
@@ -71,8 +73,7 @@
                                             op: "inrange",
                                             val: [+datum.x_min.toFixed(0), +datum.x_max.toFixed(0) + 1],
                                             editing: false,
-                                        });
-                                        comp.newsearch();
+                                        })
                                     }
                                 }
                             },
@@ -88,7 +89,6 @@
                                             val: [datum.name, datum.name + gap + 1],
                                             editing: false,
                                         });
-                                        comp.newsearch();
                                     }
                                 }
                             }
